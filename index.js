@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
