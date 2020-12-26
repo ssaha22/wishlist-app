@@ -9,10 +9,15 @@
 <body> 
     <h1>Wishlist</h1>
     <div class="container">
-        <button type="button" class="button">View Wishlist</button>
-        <button type="button" class="button">Add Item</button>
-        <button type="button" class="button">Delete Item</button>
+        <a href="/add" class="button">Add Item</a>
+        <a href="/delete" class="button">Delete Item</a>
     </div>
+    <% for (i = 0; i < items.length; i++) { %>
+        <p><%= items[i].name %></p>
+        <ul>
+            <li><a href=<%= items[i].link %> target="_blank">Link</a></li>
+        </ul>
+    <% } %>
 </body> 
   
-</html>   
+</html> 
