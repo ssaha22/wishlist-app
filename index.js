@@ -1,6 +1,7 @@
 const fs = require('fs');
 const express = require('express');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 
 const app = express();
 const port = 8000;
@@ -9,6 +10,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 function readData(file) {
     let data = fs.readFileSync(file);
@@ -35,6 +37,20 @@ app.post('/add', (req, res) => {
     let items = readData("db/items.json");
     let newItem = req.body;
     items.push(newItem);
+    let data = JSON.stringify(items);
+    writeData("db/items.json", data);
+    res.redirect('/');
+});
+
+app.get('/delete', (req, res) => {
+    let items = readData("db/items.json");
+    res.render('delete', { items: items });
+});
+
+app.delete('/delete', (req, res) => {
+    let items = readData("db/items.json");
+    let index = req.body.index;
+    items.splice(index, 1);
     let data = JSON.stringify(items);
     writeData("db/items.json", data);
     res.redirect('/');

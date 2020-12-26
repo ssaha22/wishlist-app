@@ -9,11 +9,16 @@
 <body> 
     <h1>Wishlist</h1>
     <div class="container">
+        <a href="/" class="button">View Wishlist</a>
         <a href="/add" class="button">Add Item</a>
-        <a href="/delete" class="button">Delete Item</a>
         <div class="items">
             <% for (i = 0; i < items.length; i++) { %>
-                <p><%= i + 1 %>. <%= items[i].name %> - <a href=<%= items[i].link %> target="_blank">Link</a></p>
+                <form method="POST" action="/delete?_method=DELETE">
+                    <input type="hidden" name="index" value=<%= i %>>
+                    <p><%= items[i].name %>
+                        <button type="submit">Delete</button>
+                    </p>
+                </form>
             <% } %>
         </div>
     </div>

@@ -11,14 +11,16 @@
     <div class="container">
         <a href="/" class="button">View Wishlist</a>
         <a href="/delete" class="button">Delete Item</a>
+        <div class="items">
+            <form action="/add" method="POST">
+                <label for="name">Item:</label>
+                <input type="text" id="name" name="name"><br><br>
+                <label for="link">Link:</label>
+                <input type="text" id="link" name="link"><br><br>
+                <input type="submit" value="Add">
+            </form>
+        </div>
     </div>
-    <form action="/add" method="POST">
-        <label for="name">Item:</label><br>
-        <input type="text" id="name" name="name"><br>
-        <label for="link">Link:</label><br>
-        <input type="text" id="link" name="link"><br><br>
-        <input type="submit" value="Add">
-    </form>
 </body> 
   
 </html>   
