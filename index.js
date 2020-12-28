@@ -4,11 +4,11 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
 app.set('view engine', 'ejs');
-app.use(bodyParser.json());
 app.use('/public', express.static('public'));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
@@ -29,11 +29,7 @@ app.get('/', (req, res) => {
     res.render('index', { items: items });
 });
 
-app.get('/add', (req, res) => {
-    res.render('add');
-});
-
-app.post('/add', (req, res) => {
+app.post('/', (req, res) => {
     let items = readData("db/items.json");
     let newItem = req.body;
     items.push(newItem);
@@ -42,14 +38,9 @@ app.post('/add', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/delete', (req, res) => {
+app.delete('/:id', (req, res) => {
     let items = readData("db/items.json");
-    res.render('delete', { items: items });
-});
-
-app.delete('/delete', (req, res) => {
-    let items = readData("db/items.json");
-    let index = req.body.index;
+    let index = req.params.id;
     items.splice(index, 1);
     let data = JSON.stringify(items);
     writeData("db/items.json", data);
