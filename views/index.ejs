@@ -4,42 +4,13 @@
 <head> 
     <title>Wishlist</title>
     <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css"/>
-    <script>
-        function toggleDisplay(className, displayStyle) {
-            let elements = document.getElementsByClassName(className);
-            for (i = 0; i < elements.length; i++) {
-                if (elements[i].style.display == displayStyle) {
-                    elements[i].style.display = "none";
-                } else {
-                    elements[i].style.display = displayStyle;
-                }
-            }
-        }
-    </script>
 </head> 
   
 <body> 
     <h1>Wishlist</h1>
     <div class="container">
-        <button class="button" onclick="toggleDisplay('addform', 'block')">Add Item</button>
-        <button class="button" onclick="toggleDisplay('delete', 'inline')">Delete Item</button>
-        <form class="addform" action="/" method="POST">
-            <label for="name">Item:</label>
-            <input type="text" id="name" name="name" required><br><br>
-            <label for="link">Link:</label>
-            <input type="text" id="link" name="link" required><br><br>
-            <button type="submit">Add</button>
-        </form>
-        <div class="items">
-            <% for (i = 0; i < items.length; i++) { %>
-                <form method="POST" action="/<%= i %>?_method=DELETE">
-                    <p><%= i + 1 %>. <%= items[i].name %> - 
-                        <a href=<%= items[i].link %> target="_blank">Link</a>
-                        <button type="submit" class="delete">Delete</button>
-                    </p>
-                </form>
-            <% } %>
-        </div>
+        <a href="/login" class="button">Login</a><br><br>
+        <a href="/register" class="button">Register</a>
     </div>
 </body> 
   

@@ -1,0 +1,25 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  
+<head> 
+    <title>Wishlist</title>
+    <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css"/>
+</head> 
+  
+<body> 
+    <h1>Wishlist</h1>
+    <div class="container">
+        <% if (message) { %>
+            <p><%= message %></p>
+        <% } %>
+        <form method="POST" action="/login">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body> 
+  
+</html> 
