@@ -6,9 +6,9 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 
 const app = express();
-const port = process.env.PORT || 8000;
-const mongoDB = process.env.MONGODB_URI || 'mongodb+srv://sayan:testing1234@cluster0.uywsm.mongodb.net/development?retryWrites=true&w=majority';
-const secret = process.env.SECRET || 'secret';
+const port = process.env.PORT;
+const mongoDB = process.env.MONGODB_URI;
+const secret = process.env.SECRET;
 const User = require('./models/user.js');
 
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true });
