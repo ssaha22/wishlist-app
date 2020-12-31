@@ -1,15 +1,14 @@
-const fs = require('fs');
-const crypto = require('crypto');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const app = express();
-const port = process.env.PORT;
-const mongoDB = process.env.MONGODB_URI;
-const secret = process.env.SECRET;
+const port = process.env.PORT || 8000;
+const mongoDB = process.env.MONGODB_URI || 'mongodb+srv://sayan:testing1234@cluster0.uywsm.mongodb.net/development?retryWrites=true&w=majority';
+const secret = process.env.SECRET || 'secret';
 const User = require('./models/user.js');
 
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true });
@@ -26,12 +25,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-
-function getHashedPassword(password) {
-    const sha256 = crypto.createHash('sha256');
-    const hash = sha256.update(password).digest('base64');
-    return hash;
-}
 
 app.get('/', (req, res) => {
     if (req.session.user) {
@@ -58,13 +51,13 @@ app.post('/register', (req, res) => {
     } else if (password !== confirmPassword) {
         res.render('register', { message: "Passwords don't match." });
     } else {
-        User.findOne({username: username}).exec((err, user) => {
+        User.findOne({username: username}).exec(async (err, user) => {
             if (err) {
                 throw err;
             } else if (user) {
                 res.render('register', { message: "This username is already taken." });
             } else {
-                password = getHashedPassword(password);
+                password = await bcrypt.hash(password, 10);
                 let newUser = new User({
                     username: username,
                     password: password,
@@ -88,16 +81,19 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    let { username, password, } = req.body;
-    password = getHashedPassword(password);
-    User.findOne({username: username, password: password}).exec((err, user) => {
+    let { username, password } = req.body;
+    User.findOne({username: username}).exec(async (err, user) => {
         if (err) {
             throw err;
         } else if (user) {
-            req.session.user = username;
-            res.redirect(`/users/${username}`);
+            if (await bcrypt.compare(password, user.password)) {
+                req.session.user = username;
+                res.redirect(`/users/${username}`);
+            } else {
+                res.render('login', { message: "Incorrect password. Please try again." });
+            }
         } else {
-            res.render('login', { message: "Invalid username or password." });
+            res.render('login', { message: "Invalid username. Please try again." });
         }
     });
 });
