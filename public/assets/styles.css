@@ -29,7 +29,6 @@
 
 #add-form {
     display: none;
-    width: 350px;
     margin: 0px auto;
 }
 
@@ -38,12 +37,12 @@
 }
 
 #add-form button {
-    width: 80px;
+    width: 100px;
 }
 
 .items {
     margin: 20px auto;
-    width: 500px;
+    width: 550px;
 }
 
 .items .card {
@@ -52,6 +51,24 @@
     font-size: 20px;
 }
 
-.items button {
+.icons {
+    display: inline;
+}
+
+.icons button {
     padding: 0px;
+    padding-left: 10px;
+}
+
+.edit-form {
+    display: none;
+    margin: 20px auto;
+}
+
+.edit-form form {
+    padding: 20px;
+}
+
+.edit-form button {
+    width: 80px;
 }

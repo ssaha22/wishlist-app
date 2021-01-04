@@ -136,6 +136,21 @@ app.post('/users/:username', (req, res) => {
     });
 });
 
+app.put('/users/:username/:id', (req, res) => {
+    let username = req.params.username;
+    let index = req.params.id;
+    let updatedItem = req.body;
+    User.findOne({username: username}).exec((err, user) => {
+        if (err) {
+            throw err;
+        } else {
+            user.items[index] = updatedItem;
+            user.save();
+            res.redirect(`/users/${username}`);
+        }
+    });
+});
+
 app.delete('/users/:username/:id', (req, res) => {
     let username = req.params.username;
     let index = req.params.id;
