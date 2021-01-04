@@ -38,24 +38,24 @@ app.get('/register', (req, res) => {
     if (req.session.user) {
         res.redirect(`/users/${req.session.user}`);
     } else {
-        res.render('register', { message: null });
+        res.render('register', { error: null, user: {} });
     }
 });
 
 app.post('/register', (req, res) => {
     let { name, username, password, confirmPassword } = req.body;
-    if (password.length < 6) {
-        res.render('register', { message: "Password must be at least 6 characters long." });
-    } else if (username.length < 6) {
-        res.render('register', { message: "Username must be at least 6 characters long." });
+    if (username.length < 6) {
+        res.render('register', { error: "short-username", user: req.body });
+    } else if (password.length < 6) {
+        res.render('register', { error: "short-password", user: req.body });
     } else if (password !== confirmPassword) {
-        res.render('register', { message: "Passwords don't match." });
+        res.render('register', { error: "passwords-not-matching", user: req.body });
     } else {
         User.findOne({username: username}).exec(async (err, user) => {
             if (err) {
                 throw err;
             } else if (user) {
-                res.render('register', { message: "This username is already taken." });
+                res.render('register', { error: "username-taken", user: req.body });
             } else {
                 password = await bcrypt.hash(password, 10);
                 let newUser = new User({
@@ -76,7 +76,7 @@ app.get('/login', (req, res) => {
     if (req.session.user) {
         res.redirect(`/users/${req.session.user}`);
     } else {
-        res.render('login', { message: null });
+        res.render('login', { error: null, user: {} });
     }
 });
 
@@ -90,10 +90,10 @@ app.post('/login', (req, res) => {
                 req.session.user = username;
                 res.redirect(`/users/${username}`);
             } else {
-                res.render('login', { message: "Incorrect password. Please try again." });
+                res.render('login', { error: "incorrect-password", user: req.body });
             }
         } else {
-            res.render('login', { message: "Invalid username. Please try again." });
+            res.render('login', { error: "invalid-username", user: req.body });
         }
     });
 });

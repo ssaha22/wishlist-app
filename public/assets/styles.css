@@ -1,35 +1,57 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
+.home-buttons a {
+    width: 200px;
+    display: block;
+    margin: 25px auto;
+    font-size: 32px;
 }
 
-h1 {
-    font-weight: normal;
-    text-align: center;
-    font-size: 4.5em;
+.form {
+    width: 400px;
+    margin: 50px auto;
 }
 
-.container {
-    text-align: center;
+.form form {
+    margin-bottom: 15px;
+    background: #f3f3f3;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
 }
 
-.button {
-    font-size: 1.5em;
-    padding: 8px;
-    margin-left: 5px;
-    margin-right: 5px;
+.form h2 {
+    margin: 0 0 15px;
+}
+
+.buttons a, .buttons button {
+    width: 180px;
+    margin: 25px auto;
+    font-size: 28px;
+}
+
+#add-form {
+    display: none;
+    width: 350px;
+    margin: 0px auto;
+}
+
+#add-form form {
+    padding: 20px;
+}
+
+#add-form button {
+    width: 80px;
 }
 
 .items {
-    font-size: 1.2em;
-    margin-top: 60px;
+    margin: 20px auto;
+    width: 500px;
 }
 
-.addform {
-    font-size: 1.2em;
-    margin-top: 40px;
-    display: none;
+.items .card {
+    margin: 10px auto;
+    padding: 10px 15px;
+    font-size: 20px;
 }
 
-.delete {
-    display: none;
+.items button {
+    padding: 0px;
 }

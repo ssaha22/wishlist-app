@@ -3,45 +3,61 @@
   
 <head> 
     <title>Wishlist</title>
-    <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/8cecad01cd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href= "/public/assets/styles.css"/>
     <script>
-        function toggleDisplay(className, displayStyle) {
-            let elements = document.getElementsByClassName(className);
-            for (i = 0; i < elements.length; i++) {
-                if (elements[i].style.display == displayStyle) {
-                    elements[i].style.display = "none";
-                } else {
-                    elements[i].style.display = displayStyle;
-                }
+        function toggleDisplay(elementID) {
+            let element = document.getElementById(elementID);
+            if (element.style.display === "block") {
+                element.style.display = "none";
+            } else {
+                element.style.display = "block";
             }
         }
     </script>
 </head> 
   
-<body> 
-    <h1><%= name %>'s Wishlist</h1>
-    <div class="container">
-        <button class="button" onclick="toggleDisplay('addform', 'block')">Add Item</button>
-        <button class="button" onclick="toggleDisplay('delete', 'inline')">Delete Item</button>
-        <a href="/logout" class="button">Logout</a>
-        <form class="addform" action="/users/<%= username %>" method="POST">
-            <label for="name">Item:</label>
-            <input type="text" id="name" name="name" required><br><br>
-            <label for="link">Link:</label>
-            <input type="text" id="link" name="link" required><br><br>
-            <button type="submit">Add</button>
-        </form>
-        <div class="items">
-            <% for (i = 0; i < items.length; i++) { %>
-                <form method="POST" action="/users/<%= username %>/<%= i %>?_method=DELETE">
-                    <p><%= i + 1 %>. <%= items[i].name %> - 
-                        <a href=<%= items[i].link %> target="_blank">Link</a>
-                        <button type="submit" class="delete">Delete</button>
-                    </p>
-                </form>
-            <% } %>
+<body>
+    <div class="text-center">
+        <h1 class="display-2 mt-4"><%= name %>'s Wishlist</h1>
+        <div class="buttons">
+            <button class="btn btn-primary btn-lg" onclick="toggleDisplay('add-form')">Add Item</button>
+            <a href="/logout" class="btn btn-primary btn-lg">Logout</a>
         </div>
     </div>
+    <div class="form" id="add-form">
+        <form action="/users/<%= username %>" method="POST">
+            <div class="form-group">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="link" name="link" placeholder="Link">
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="reset" class="btn btn-primary" onclick="toggleDisplay('add-form')">Cancel</button>
+        </form>
+    </div>
+    <div class="items">
+        <% for (i = 0; i < items.length; i++) { %>
+            <div class="card">
+                <form method="POST" action="/users/<%= username %>/<%= i %>?_method=DELETE">
+                    <span><%= items[i].name %>
+                        <% if (items[i].link) { %>
+                            - <a href=<%= items[i].link %> target="_blank">Link</a>
+                        <% }%>
+                    </span>
+                    <button type="submit" class="btn btn-link float-right">
+                        <span class="far fa-trash-alt fa-lg"></span>
+                    </button>
+                </form>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body> 
   
 </html> 
