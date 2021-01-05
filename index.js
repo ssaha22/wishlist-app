@@ -104,22 +104,20 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/users/:username', (req, res) => {
-    if (req.session.user) {
-        let username = req.params.username;
-        if (req.session.user === username) {
-            User.findOne({username: username}).exec((err, user) => {
-                if (err) {
-                    throw err;
-                } else {
-                    res.render('user', { username: username, name: user.name, items: user.items });
-                }
-            });
+    let username = req.params.username;
+    User.findOne({username: username}).exec((err, user) => {
+        if (err) {
+            throw err;
+        } else if (user) {
+            if (req.session.user === username) {
+                res.render('user-logged-in', { username: username, name: user.name, items: user.items });
+            } else {
+                res.render('user-not-logged-in', { name: user.name, items: user.items });
+            }
         } else {
-            res.redirect(`/users/${req.session.user}`);
+            res.render('error-page', { message: 'User Not Found' });
         }
-    } else {
-        res.redirect('/login');
-    }
+    });
 });
 
 app.post('/users/:username', (req, res) => {
@@ -163,6 +161,10 @@ app.delete('/users/:username/:id', (req, res) => {
             res.redirect(`/users/${username}`);
         }
     });
+});
+
+app.get('*', (req, res) => {
+    res.render('error-page', { message: 'Page Not Found' });
 });
 
 app.listen(port, () => {

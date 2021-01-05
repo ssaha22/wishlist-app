@@ -6,16 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/8cecad01cd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href= "/public/assets/styles.css"/>
-    <script>
-        function toggleDisplay(elementID) {
-            let element = document.getElementById(elementID);
-            if (element.style.display === "block") {
-                element.style.display = "none";
-            } else {
-                element.style.display = "block";
-            }
-        }
-    </script>
+    <script src="/public/assets/scripts.js"></script>
 </head> 
   
 <body>
@@ -23,8 +14,14 @@
         <h1 class="display-2 mt-4"><%= name %>'s Wishlist</h1>
         <div class="buttons">
             <button type="button" class="btn btn-primary btn-lg" onclick="toggleDisplay('add-form')">New Item</button>
-            <a href="/logout" class="btn btn-primary btn-lg">Logout</a>
+            <button type="button" class="btn btn-primary btn-lg" onclick="toggleDisplay('share')">Share Wishlist</button>
+            <a href="/logout" class="btn btn-primary btn-lg">Log Out</a>
         </div>
+    </div>
+    <div id="share" class="text-center">
+        <input type="text" id="share-link" value="https://node-wishlist-app.herokuapp.com/users/<%= username %>" readonly>
+        <button type="button" class="btn btn-primary align-bottom" title="Copy to Clipboard" onclick="copy('share-link')">Copy</button>
+        <button type="button" class="btn btn-primary align-bottom" onclick="toggleDisplay('share')">Done</button>
     </div>
     <div class="form" id="add-form">
         <form method="POST" action="/users/<%= username %>">
